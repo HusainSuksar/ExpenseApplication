@@ -37,15 +37,15 @@ class User(AbstractUser):
         (MALE, _('Male')),
         (FEMALE, _('Female'))
     ]
-    birth_date = models.DateField(verbose_name=_('Birth Date'))
-    image = models.ImageField(upload_to='profile/')
-    address = models.CharField(max_length=500, verbose_name=_('Address'))
+    birth_date = models.DateField(verbose_name=_('Birth Date'), blank=True, null=True)
+    image = models.ImageField(upload_to='profile/', blank=True, null=True)
+    address = models.CharField(max_length=500, verbose_name=_('Address'), blank=True, null=True)
 
     country = models.ForeignKey(Country, on_delete=models.PROTECT, related_name=_('users'),
-                                verbose_name=_('Country'))
-    phone = models.CharField(max_length=15, verbose_name=_('Phone'))
+                                verbose_name=_('Country'), blank=True, null=True)
+    phone = models.CharField(max_length=15, verbose_name=_('Phone'),blank=True, null=True )
     type = models.SmallIntegerField(choices=TYPE, default=0)
-    gender = models.SmallIntegerField(choices=GENDER)
+    gender = models.SmallIntegerField(choices=GENDER,blank=True, null=True)
     # to log with email
     # email overwrite to be unique
     # removed from required fields list
