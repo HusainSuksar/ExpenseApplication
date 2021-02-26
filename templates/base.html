@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'head.html' %}
+    {% block extra_head %}
+
+    {% endblock %}
+</head>
+<body class="theme-red">
+{% include 'header.html' %}
+{% block body %}
+
+{% endblock %}
+</body>
+</html>
+{% include 'scripts.html' %}
+{% block extra_script %}
+
+{% endblock %}

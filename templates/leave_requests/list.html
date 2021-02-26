@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+{% block extra_head %}
+    {% include 'datatable_head.html' %}
+{% endblock %}
+{% block body %}
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <h2>
+                    Employees
+                </h2>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table id="example1"
+                                       class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                    <thead>
+                                    <tr>
+                                        <th>{% trans 'No' %}</th>
+                                        <th>#</th>
+                                        <th>{% trans 'user' %}</th>
+                                        <th>{% trans 'reason' %}</th>
+                                        <th>{% trans 'status' %}</th>
+                                        <th>{% trans 'created_at' %}</th>
+                                        <th>{% trans 'modified_date' %}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>{% trans 'No' %}</th>
+                                        <th>#</th>
+                                        <th>{% trans 'user' %}</th>
+                                        <th>{% trans 'reason' %}</th>
+                                        <th>{% trans 'status' %}</th>
+                                        <th>{% trans 'created_at' %}</th>
+                                        <th>{% trans 'modified_date' %}</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
+{% block extra_script %}
+    {% include 'datatable_script.html' %}
+    <script>
+        {% if user.type == user.MANAGER %}
+            const link = '/requests/';
+        {% else %}
+            const link = '/requests/update/';
+        {% endif %}
+        {# for num_render function in AdminLte/datatable_scripts.html #}
+        const addLink = '{% url 'accounts:request_add' %}';
+        {# for addBtn function in AdminLte/datatable_scripts.html #}
+        $(document).ready(function () {
+            $('#example1').dataTable({
+                initComplete: function () {
+                    this.api().columns(4).every(function () {
+                        var column = this;
+                        var select = $('<select style="margin-left: 15px"><option value=""></option></select>')
+                            .appendTo($(column.header()))
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+                                column.search(val).draw();
+                            });
+                        let a = '{% trans 'Pending' %}'
+                        select.append('<option value=0>' + a + '</option>')
+                        a = '{% trans 'Approved' %}'
+                        select.append('<option value=1>' + a + '</option>')
+                        a = '{% trans 'Rejected' %}'
+                        select.append('<option value=2>' + a + '</option>')
+                    });
+                },
+                responsive: true,
+                autoWidth: true,
+                lengthMenu: lengthMenu,
+                order: [],
+                dom: 'Bfrtip',
+                buttons: buttons, {# global variable define in AdminLte/datatable_scripts.html #}
+                language: dt_language, {# global variable defined in AdminLte/datatable_scripts.html #}
+                columns: [
+                    {data: 0, render: num_render}, {# global function define in AdminLte/datatable_scripts.html #}
+                    {data: 0, render: checkbox_render}, {# global function define in AdminLte/datatable_scripts.html #}
+                    {data: 1},
+                    {
+                        data: 2,
+                        render: long_render
+                    },
+                    {data: 3},
+                    {data: 4},
+                    {data: 5},
+                ],
+                columnDefs: [
+                    {
+                        targets: [5, 6],
+                        className: 'align-middle text-center',
+                        orderable: true,
+                        searchable: true
+                    },
+                    {
+                        targets: [0, 1, 2, 3, 4,],
+                        className: 'align-middle text-center',
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                searching: true,
+                processing: true,
+                serverSide: true,
+                stateSave: false,
+                ajax: {
+                    'url': '{% url "accounts:request_list_data" %}',
+                    'data': function (data) {
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}
