@@ -6,7 +6,11 @@ $.AdminBSB = {};
 $.AdminBSB.options = {
     colors: {
         red: '#F44336',
+<<<<<<< HEAD
         pink: '#e91e63',
+=======
+        pink: '#E91E63',
+>>>>>>> origin/master
         purple: '#9C27B0',
         deepPurple: '#673AB7',
         indigo: '#3F51B5',
