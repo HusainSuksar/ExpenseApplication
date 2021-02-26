@@ -7,13 +7,27 @@ from accounts.models import User
 
 
 class CustomUserAdminCreationForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.Meta.required:
+            self.fields[field].required = True
+
     class Meta:
         model = User
         fields = ('email', 'birth_date', 'first_name', 'last_name', 'image', 'address',
                   'country', 'phone', 'gender', 'username', 'is_active', 'type')
+        required = ('email', 'birth_date', 'first_name', 'last_name', 'image', 'address',
+                    'country', 'phone', 'gender', 'username', 'is_active', 'type')
 
 
 class UserChangeForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.Meta.required:
+            self.fields[field].required = True
+
     password1 = forms.CharField(
         label="Password",
         strip=False,
@@ -51,10 +65,20 @@ class UserChangeForm(forms.ModelForm):
         model = User
         fields = ('email', 'birth_date', 'first_name', 'last_name', 'image', 'address',
                   'country', 'phone', 'gender', 'username',)
+        required = ('email', 'birth_date', 'first_name', 'last_name', 'image', 'address',
+                    'country', 'phone', 'gender', 'username',)
 
 
 class UserAdminChangeForm(UserChangeForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        for field in self.Meta.required:
+            self.fields[field].required = True
+
     class Meta:
         model = User
         fields = ('email', 'birth_date', 'first_name', 'last_name', 'image', 'address',
                   'country', 'phone', 'gender', 'username', 'is_active', 'type')
+        required = ('email', 'birth_date', 'first_name', 'last_name', 'image', 'address',
+                    'country', 'phone', 'gender', 'username', 'is_active', 'type')
