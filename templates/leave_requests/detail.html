@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block body %}
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <h2>
+                    Request
+                </h2>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                {{ leave_request.user }}
+                            </h2>
+                        </div>
+                        <div class="body">
+                            {{ leave_request.reason|safe }}
+                            <div class="row">
+                                <form method="post">
+                                {% csrf_token %}
+                                    <div class="col-sm-6">
+                                        <select name="status" class="form-control show-tick">
+                                            {% for s in leave_request.STATUS %}
+                                                {% if leave_request.status == s.0 %}
+                                                    <option selected value="{{ s.0 }}">{{ s.1 }}</option>
+                                                {% else %}
+                                                    <option value="{{ s.0 }}">{{ s.1 }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="float: right;margin-right: 15px;">
+                                            <input type="submit" class="btn bg-red btn-block btn-lg waves-effect"
+                                                   value="Save">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

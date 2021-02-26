@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static widget_tweaks %}
+
+{% block body %}
+    <section class="content">
+        <div class="container-fluid">
+            <div class="block-header">
+                <h2>Leave Request</h2>
+            </div>
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="body">
+                            <h2 class="card-inside-title">Request</h2>
+                            {% if form.errors %}
+                                <div class="alert bg-red alert-dismissible" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                            aria-hidden="true">×</span></button>
+                                    {{ form.errors }}
+                                </div>
+                            {% endif %}
+                            <form id="request_form" method="post">
+                                {% csrf_token %}
+                                <div class="row clearfix">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                {% render_field form.reason id='tinymce' %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+                            <div class="row clearfix">
+
+                                <div style="float: right;margin-right: 15px;">
+                                    <button onclick="submit()" type="button" role="button"
+                                            class="btn bg-red btn-block btn-lg waves-effect"
+                                            value="Save">Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block extra_script %}
+    <script src="{% static 'plugins/tinymce/tinymce.js' %}"></script>
+
+    <script>
+
+        $(document).ready($(function () {
+            console.log('ready')
+            tinymce.init({
+                selector: "textarea#tinymce",
+                theme: "modern",
+                height: 300,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview hr anchor pagebreak',
+                    'searchreplace wordcount visualblocks visualchars code fullscreen',
+                    'insertdatetime media nonbreaking save table contextmenu directionality',
+                    'emoticons template paste textcolor colorpicker textpattern imagetools'
+                ],
+                toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+                toolbar2: 'print preview media | forecolor backcolor emoticons',
+                image_advtab: true
+            });
+            tinymce.suffix = ".min";
+            tinyMCE.baseURL = '../../static/plugins/tinymce';
+        }))
+
+        function submit(btn) {
+            tinymce.triggerSave();
+            if ($('#tinymce').val() != ''){
+                $('#request_form').submit();
+            }
+        }
+    </script>
+{% endblock %}

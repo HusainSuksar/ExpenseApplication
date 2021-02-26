@@ -1,0 +1,208 @@
+{% load static i18n %}
+
+<form id="DelForm" method="post">
+    {% csrf_token %}
+</form>
+<div class="modal fade" id="modal-danger">
+    <div class="modal-dialog">
+        <div class="modal-content bg-danger">
+            <div class="modal-header">
+                <h4 class="modal-title">{% trans 'Delete' %}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p id="modalBody"></p>
+            </div>
+            <div class="modal-footer justify-content-between">
+                <button type="button" class="btn btn-outline-light"
+                        data-dismiss="modal">{% trans 'Close' %}</button>
+                <button type="button" class="btn btn-outline-light" onclick="delBtn()">{% trans 'Delete' %}</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript"
+        src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.23/af-2.3.5/b-1.6.5/b-colvis-1.6.5/b-flash-1.6.5/b-html5-1.6.5/b-print-1.6.5/cr-1.5.3/fc-3.3.2/fh-3.1.8/kt-2.6.1/r-2.2.7/rg-1.1.2/rr-1.2.7/sc-2.0.3/sb-1.0.1/sp-1.2.2/sl-1.3.1/datatables.min.js"></script>
+<style>
+    .visable {
+        position: inherit !important;
+        left: 0 !important;
+        opacity: 1 !important;
+    }
+</style>
+<script>
+
+    const dt_language = {
+        "emptyTable": "{% trans "No data available in table" %}",
+        "info": "{% trans "Showing _START_ to _END_ of _TOTAL_ entries" %}",
+        "infoEmpty": "{% trans "Showing 0 to 0 of 0 entries" %}",
+        "infoFiltered": "{% trans "(filtered from _MAX_ total entries)" %}",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "{% trans "Show _MENU_ entries" %}",
+        "loadingRecords": "{% trans "Loading..." %}",
+        "processing": "{% trans "Processing..." %}",
+        "search": "{% trans "Search:" %}",
+        "zeroRecords": "{% trans "No matching records found" %}",
+        "paginate": {
+            "first": "{% trans "First" %}",
+            "last": "{% trans "Last" %}",
+            "next": "{% trans "Next" %}",
+            "previous": "{% trans "Previous" %}"
+        },
+        "aria": {
+            "sortAscending": "{% trans ": activate to sort column ascending" %}",
+            "sortDescending": "{% trans ": activate to sort column descending" %}"
+        },
+    };
+    const lengthMenu = [
+        [10, 25, 50, 100, -1],
+        ['10', '25', '50', '100', 'Show all']
+    ];
+    const buttons = [
+        'pageLength',
+        {
+            text: '{% trans 'Add' %}',
+            className: 'btn btn-success waves-effect',
+            action: addBtn
+        },
+        {
+            text: '{% trans 'Select All' %}',
+            className: 'btn btn-warning',
+            action: selectAll
+        },
+        {
+            text: '{% trans 'Delete' %}',
+            className: 'btn btn-danger',
+            action: function (e, dt, node, config) {
+                const selected = new Array();
+                $("#example1 input[type=checkbox]:checked").each(function () {
+                    selected.push(this.value);
+                });
+                if (selected.length > 0) {
+                    document.getElementById('modalBody').innerText = '{% trans 'you will delete ' %}' + selected.length
+                    $('#modal-danger').modal('show');
+                } else {
+                    Toast.fire({
+                        icon: 'error',
+                        text: '{% trans 'You Must Check Rows' %}'
+                    })
+                }
+            }
+        },
+        {
+            extend: 'copy',
+            text: '{% trans 'Copy' %}'
+        },
+        {
+            extend: 'csv',
+            text: '{% trans 'CSV' %}'
+        },
+        {
+            extend: 'excel',
+            text: '{% trans 'Excel' %}'
+        },
+
+        {
+            extend: 'print',
+            text: '{% trans 'Print' %}',
+            title: '{{site_info.name}}',
+            autoPrint: false,
+            repeatingHead: {
+                logo: 'assets/dist/img/report-logo.png',
+                logoPosition: 'right',
+                logoStyle: '',
+                title: 'test'
+            },
+            exportOptions: {
+                columns: ':visible',
+                stripHtml: false
+            },
+            customize: function (win) {
+                $(win.document.body)
+                    .css('font-size', '10pt')
+                    .prepend(
+                        '<img src="{{request.scheme}}://{{request.META.HTTP_HOST}}{{ site_info.logo.url }}" style="position:absolute; top:20%; left:25%;max-height: 500px;opacity: 0.5;" />'
+                    );
+
+                $(win.document.body).find('table')
+                    .addClass('compact')
+                    .css('font-size', 'inherit');
+            }
+        },
+        {
+            extend: 'colvis',
+            text: '{% trans 'Column Visibility' %}'
+        }
+    ]
+
+
+    let flag = true
+
+    function selectAll(e, dt, node, config) {
+        $("#example1 input[type=checkbox]").each(function () {
+            if (flag) {
+                $(this).prop('checked', true);
+            } else {
+                $(this).prop('checked', false);
+            }
+        });
+        if (flag) {
+            flag = false
+        } else {
+            flag = true
+        }
+    }
+
+    function delBtn() {
+        const selected = new Array();
+        $("#example1 input[type=checkbox]:checked").each(function () {
+            selected.push(this.value);
+        });
+        document.getElementById('DelForm').innerHTML += '<input type="hidden" name="deleteIds" value="' + selected + '">';
+        document.getElementById('DelForm').submit();
+    }
+
+
+    function addBtn(e, dt, node, config) {
+        document.location.href = addLink;
+    }
+
+    function long_render(data, type, row, meta) {
+        if (data.length > 20)
+            return data.substring(0, 20) + ' ... ';
+        return data;
+    }
+
+
+    function true_false_render(data, type, row, meta) {
+        if (data == 'True') {
+            return '<i style="color: #007fcc;font-size: 20px" class="fas fa-check"></i>'
+        } else {
+            return '<i style="color: red;font-size: 20px" class="fas fa-times"></i>'
+        }
+
+    }
+
+    function img_render(data, type, row, meta) {
+        return '<img style="max-height: 50px" src="' + data + '" >'
+    }
+
+    function checkbox_render(data, type, row, meta) {
+        return '<input class="visable" type="checkbox" value="' + data + '" >'
+    }
+
+    function num_render(data, type, row, meta) {
+        var num = meta.row + meta.settings._iDisplayStart + 1;
+        return '<a href="' + link + data + '">' + num + '</a>'
+    }
+
+</script>
