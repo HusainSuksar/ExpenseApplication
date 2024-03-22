@@ -17,10 +17,7 @@ $ python manage.py add_countries # for fill country tabel from country.json
 $ python manage.py createsuperuser # create superuser to use in project
 $ python manage.py runserver
 ```
-#### Deployed Website 
-http://abdallahtarek123.pythonanywhere.com/ \
-##### Django Admin Dashboard
-http://abdallahtarek123.pythonanywhere.com/admin
+
 ```commandline
 # SuperUser
 username: admin
@@ -36,4 +33,4 @@ password: aw123456
 username: manager
 email:manager@manager.com
 password: aw123456
-```
+```# ExpenseApplication
