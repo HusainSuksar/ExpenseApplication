@@ -5,80 +5,55 @@
     <section class="content">
         <div class="container-fluid">
             <div class="block-header">
-                <h2>Leave Request</h2>
+                <h2 style="color: #333; text-align: center; margin-bottom: 30px;">Leave Request</h2>
             </div>
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card">
+                    <div class="card" style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); transition: 0.3s; border-radius: 5px;">
                         <div class="body">
-                            <h2 class="card-inside-title">Request</h2>
+                            <h2 class="card-inside-title" style="font-size: 24px; color: #333; margin-bottom: 30px;">Request</h2>
                             {% if form.errors %}
-                                <div class="alert bg-red alert-dismissible" role="alert">
+                                <div class="alert bg-red alert-dismissible" role="alert" style="margin-bottom: 20px;">
                                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                                             aria-hidden="true">×</span></button>
-                                    {{ form.errors }}
+                                    <span style="color: #fff;">{{ form.errors }}</span>
                                 </div>
                             {% endif %}
                             <form id="request_form" method="post">
                                 {% csrf_token %}
                                 <div class="row clearfix">
-                                    <div class="col-sm-12">
+                                    <div class="col-sm-12" style="margin-bottom: 20px;">
                                         <div class="form-group">
-                                            <div class="form-line">
-                                                {% render_field form.reason id='tinymce' %}
-                                            </div>
+                                            <input type="text" name="reason" class="form-control" placeholder="Reason" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
                                         </div>
                                     </div>
-
+                                    <div class="col-sm-12" style="margin-bottom: 20px;">
+                                        <div class="form-group">
+                                            <input type="number" name="amount" class="form-control" placeholder="Amount" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12" style="margin-bottom: 20px;">
+                                        <div class="form-group">
+                                            <select name="department" class="form-control" style="border: 1px solid #ccc; border-radius: 5px; padding: 10px;">
+                                                <option value="Ilmiyah">Ilmiyah</option>
+                                                <option value="Amaliyah">Amaliyah</option>
+                                                <option value="Maliyah">Maliyah</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-
+                                <div class="row clearfix">
+                                    <div style="float: right; margin-right: 15px;">
+                                        <button type="submit" class="btn bg-red btn-block btn-lg waves-effect" value="Save" style="background-color: #4CAF50; color: white; padding: 14px 20px; border: none; border-radius: 5px; cursor: pointer; transition: all 0.3s ease;">
+                                            Save
+                                        </button>
+                                    </div>
+                                </div>
                             </form>
-                            <div class="row clearfix">
-
-                                <div style="float: right;margin-right: 15px;">
-                                    <button onclick="submit()" type="button" role="button"
-                                            class="btn bg-red btn-block btn-lg waves-effect"
-                                            value="Save">Save
-                                    </button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-{% endblock %}
-{% block extra_script %}
-    <script src="{% static 'plugins/tinymce/tinymce.js' %}"></script>
-
-    <script>
-
-        $(document).ready($(function () {
-            console.log('ready')
-            tinymce.init({
-                selector: "textarea#tinymce",
-                theme: "modern",
-                height: 300,
-                plugins: [
-                    'advlist autolink lists link image charmap print preview hr anchor pagebreak',
-                    'searchreplace wordcount visualblocks visualchars code fullscreen',
-                    'insertdatetime media nonbreaking save table contextmenu directionality',
-                    'emoticons template paste textcolor colorpicker textpattern imagetools'
-                ],
-                toolbar1: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
-                toolbar2: 'print preview media | forecolor backcolor emoticons',
-                image_advtab: true
-            });
-            tinymce.suffix = ".min";
-            tinyMCE.baseURL = '../../static/plugins/tinymce';
-        }))
-
-        function submit(btn) {
-            tinymce.triggerSave();
-            if ($('#tinymce').val() != ''){
-                $('#request_form').submit();
-            }
-        }
-    </script>
 {% endblock %}
