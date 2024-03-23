@@ -7,40 +7,28 @@
     <section class="content">
         <div class="container-fluid">
             <div class="block-header">
-                <h2>
-                    Employees
-                </h2>
+                <h2>Employees</h2>
             </div>
-            <div class="row clearfix">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col-lg-12">
                     <div class="card">
                         <div class="body">
                             <div class="table-responsive">
-                                <table id="example1"
-                                       class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                <table id="example1" class="table table-striped">
                                     <thead>
-                                    <tr>
-                                        <th>{% trans 'No' %}</th>
-                                        <th>#</th>
-                                        <th>{% trans 'user' %}</th>
-                                        <th>{% trans 'reason' %}</th>
-                                        <th>{% trans 'status' %}</th>
-                                        <th>{% trans 'created_at' %}</th>
-                                        <th>{% trans 'modified_date' %}</th>
-                                    </tr>
+                                        <tr>
+                                            <th>{% trans 'No' %}</th>
+                                            <th>{% trans '#' %}</th>
+                                            <th>{% trans 'User' %}</th>
+                                            <th>{% trans 'Reason' %}</th>
+                                            <th>{% trans 'Status' %}</th>
+                                            <th>{% trans 'Amount' %}</th>
+                                            <th>{% trans 'Department' %}</th>
+                                            <th>{% trans 'Created At' %}</th>
+                                            <th>{% trans 'Modified Date' %}</th>
+                                        </tr>
                                     </thead>
                                     <tbody></tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <th>{% trans 'No' %}</th>
-                                        <th>#</th>
-                                        <th>{% trans 'user' %}</th>
-                                        <th>{% trans 'reason' %}</th>
-                                        <th>{% trans 'status' %}</th>
-                                        <th>{% trans 'created_at' %}</th>
-                                        <th>{% trans 'modified_date' %}</th>
-                                    </tr>
-                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -49,9 +37,8 @@
             </div>
         </div>
     </section>
-
-
 {% endblock %}
+
 {% block extra_script %}
     {% include 'datatable_script.html' %}
     <script>
@@ -102,6 +89,8 @@
                     {data: 3},
                     {data: 4},
                     {data: 5},
+                    { data: 6 }, 
+                    { data: 7 } 
                 ],
                 columnDefs: [
                     {
