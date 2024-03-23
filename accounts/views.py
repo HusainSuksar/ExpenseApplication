@@ -198,18 +198,14 @@ class RequestStatus(LoginRequiredMixin, DetailView):
 class RequestCreateView(LoginRequiredMixin, CreateView):
     model = LeaveRequest
     template_name = 'leave_requests/form.html'
-    fields = ['reason']
+    fields = ['reason', 'amount', 'department']  # Include new fields in the form
 
-    def post(self, request, *args, **kwargs):
-        reason = request.POST.get('reason', None)
-        if reason:
-            self.object = LeaveRequest(reason=reason, user=request.user)
-            self.object.save()
-        return redirect(self.get_success_url())
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
     def get_success_url(self):
         return reverse_lazy('accounts:request_update', kwargs={'pk': self.object.pk})
-
 
 @method_decorator(user_passes_test(is_employee), name='dispatch')
 class RequestUpdateView(LoginRequiredMixin, UpdateView):
@@ -247,8 +243,8 @@ class RequestListView(LoginRequiredMixin, TemplateView):
 
 
 class RequestListJson(LoginRequiredMixin, BaseDatatableView):
-    columns = ['id', 'user', 'reason', 'status', 'created_at', 'modified_date']
-    order_columns = ['id', 'user', 'reason', 'status', 'created_at', 'modified_date']
+    columns = ['id', 'user', 'reason', 'status', 'amount', 'department', 'created_at', 'modified_date']
+    order_columns = ['id', 'user', 'reason', 'status', 'amount', 'department', 'created_at', 'modified_date']
     max_display_length = 30
     model = LeaveRequest
 
