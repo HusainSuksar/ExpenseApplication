@@ -9,19 +9,27 @@
             </div>
             <div class="row clearfix">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="card">
+                    <div class="card" style="border: 1px solid #ddd; padding: 20px; background-color: #f9f9f9;">
                         <div class="header">
-                            <h2>
+                            <h2 style="margin-bottom: 20px;">
                                 {{ leave_request.user }}
                             </h2>
                         </div>
                         <div class="body">
-                            {{ leave_request.reason|safe }}
+                            <div style="margin-bottom: 20px;">
+                                <strong>Reason:</strong> {{ leave_request.reason|safe }}
+                            </div>
+                            <div style="margin-bottom: 20px;">
+                                <strong>Amount:</strong> {{ leave_request.amount }}
+                            </div>
+                            <div style="margin-bottom: 20px;">
+                                <strong>Department:</strong> {{ leave_request.get_department_display }}
+                            </div>
                             <div class="row">
                                 <form method="post">
-                                {% csrf_token %}
+                                    {% csrf_token %}
                                     <div class="col-sm-6">
-                                        <select name="status" class="form-control show-tick">
+                                        <select name="status" class="form-control show-tick" style="margin-bottom: 20px;">
                                             {% for s in leave_request.STATUS %}
                                                 {% if leave_request.status == s.0 %}
                                                     <option selected value="{{ s.0 }}">{{ s.1 }}</option>
@@ -32,15 +40,13 @@
                                         </select>
                                     </div>
                                     <div class="col-sm-6">
-                                        <div style="float: right;margin-right: 15px;">
-                                            <input type="submit" class="btn bg-red btn-block btn-lg waves-effect"
-                                                   value="Save">
+                                        <div style="float: right;">
+                                            <input type="submit" class="btn bg-red btn-block btn-lg waves-effect" value="Save">
                                         </div>
                                     </div>
                                 </form>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
