@@ -72,10 +72,21 @@ class LeaveRequest(models.Model):
         (APPROVED, _('Approved')),
         (REJECTED, _('Rejected'))
     ]
+    DEPARTMENT_ILMIYAH = 'Ilmiyah'
+    DEPARTMENT_AMALIYAH = 'Amaliyah'
+    DEPARTMENT_MALIYAH = 'Maliyah'
+    DEPARTMENT_CHOICES = [
+        (DEPARTMENT_ILMIYAH, _('Ilmiyah')),
+        (DEPARTMENT_AMALIYAH, _('Amaliyah')),
+        (DEPARTMENT_MALIYAH, _('Maliyah'))
+    ]
+    
     reason = models.TextField(max_length=1000, verbose_name=_('Reason'))
+    amount = models.IntegerField(verbose_name=_('Amount'))
+    department = models.CharField(max_length=50, choices=DEPARTMENT_CHOICES, verbose_name=_('Department'), default=DEPARTMENT_ILMIYAH)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='requests')
     manager = models.ForeignKey(User, on_delete=models.CASCADE, related_name='manager_requests', blank=True, null=True,
                                 validators=[manager_validate])
-    status = models.SmallIntegerField(choices=STATUS, verbose_name=_('Reason'), default=PENDING)
-    created_at = models.DateField(auto_now_add=True)
+    status = models.SmallIntegerField(choices=STATUS, verbose_name=_('Status'), default=PENDING)
+    created_at = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now=True)
