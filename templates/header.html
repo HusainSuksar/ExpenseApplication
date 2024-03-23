@@ -26,7 +26,7 @@
             <a href="javascript:void(0);" class="navbar-toggle collapsed" data-toggle="collapse"
                data-target="#navbar-collapse" aria-expanded="false"></a>
             <a href="javascript:void(0);" class="bars"></a>
-            <a class="navbar-brand" href="{% url 'accounts:home' %}">EMPLOYEE</a>
+            <a class="navbar-brand" href="{% url 'accounts:home' %}">Expense Application</a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -56,18 +56,7 @@
                 <div class="name" data-toggle="dropdown" aria-haspopup="true"
                      aria-expanded="false">{{ user.first_name }} {{ user.last_name }}</div>
                 <div class="email">{{ user.email }}</div>
-                <div class="btn-group user-helper-dropdown">
-                    <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
-                    <ul class="dropdown-menu pull-right">
-                        <li><a href="javascript:void(0);"><i class="material-icons">person</i>Profile</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="javascript:void(0);"><i class="material-icons">group</i>Followers</a></li>
-                        <li><a href="javascript:void(0);"><i class="material-icons">shopping_cart</i>Sales</a></li>
-                        <li><a href="javascript:void(0);"><i class="material-icons">favorite</i>Likes</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li><a href="javascript:void(0);"><i class="material-icons">input</i>Sign Out</a></li>
-                    </ul>
-                </div>
+
             </div>
         </div>
         <!-- #User Info -->
@@ -86,18 +75,18 @@
                         <a class="menu-toggle waves-effect waves-block">
 
                             <i class="material-icons">supervisor_account</i>
-                            <span>Employees</span>
+                            <span>Co-ordinator</span>
                         </a>
                         <ul class="ml-menu">
                             <li>
 
                                 <a class="waves-effect waves-block" href="{% url 'accounts:account_add' %}"
                                    class=" waves-effect waves-block">
-                                    Add Employee</a>
+                                    Add Coordinator</a>
                             </li>
                             <li>
                                 <a href="{% url 'accounts:account_list' %}" class=" waves-effect waves-block">
-                                    Employees List</a>
+                                    Coordinator List</a>
                             </li>
                         </ul>
                     </li>
@@ -107,7 +96,7 @@
                     <a class="menu-toggle waves-effect waves-block">
 
                         <i class="material-icons">assignment</i>
-                        <span>Leave Requests</span>
+                        <span>Expense Requests</span>
                     </a>
                     <ul class="ml-menu">
                         {% if user.type == user.EMPLOYEE %}
@@ -135,10 +124,10 @@
         <!-- Footer -->
         <div class="legal">
             <div class="copyright">
-                &copy; 2016 - 2017 <a href="javascript:void(0);">AdminBSB - Material Design</a>.
+                &copy; Ziyafat1446 <a href="javascript:void(0);"></a>.
             </div>
             <div class="version">
-                <b>Version: </b> 1.0.5
+                <b>Husain Suksar - Nairobi Jamea</b>
             </div>
         </div>
         <!-- #Footer -->
